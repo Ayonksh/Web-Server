@@ -21,7 +21,7 @@
 class WebServer {
     public:
         WebServer(
-            int port, int trigMode, int timeoutMS, bool optLinger, 
+            int port, int trigMode, int timeoutMS, bool optLinger,
             int sqlPort, const char* sqlUser, const  char* sqlPwd, const char* dbName,
             int connPoolNum, int threadNum, bool openLog, int logLevel, int logQueSize);
 
@@ -30,7 +30,7 @@ class WebServer {
 
     private:
         void m_initEventMode(int trigMode);
-        bool m_initSocket(); 
+        bool m_initSocket();
         void m_addClient(int fd, sockaddr_in addr);
     
         void m_dealListen();
@@ -43,7 +43,8 @@ class WebServer {
 
         void m_onRead(HttpConn* client);
         void m_onWrite(HttpConn* client);
-        
+        void m_onProcess(HttpConn* client);
+
         static const int MAX_FD = 65536;
 
         static int setFdNonblock(int fd);
@@ -54,10 +55,10 @@ class WebServer {
         bool m_isClose;
         int m_listenFd;
         char* m_srcDir;
-        
+
         uint32_t m_listenEvent;
         uint32_t m_connEvent;
-    
+
         std::unique_ptr<HeapTimer> m_timer;
         std::unique_ptr<ThreadPool> m_threadpool;
         std::unique_ptr<Epoller> m_epoller;

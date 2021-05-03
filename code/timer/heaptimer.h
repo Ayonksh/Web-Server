@@ -5,9 +5,9 @@
 #include <unordered_map>
 #include <time.h>
 #include <algorithm>
-#include <arpa/inet.h> 
-#include <functional> 
-#include <assert.h> 
+#include <arpa/inet.h>
+#include <functional>
+#include <assert.h>
 #include <chrono>
 
 #include "../log/log.h"
@@ -31,7 +31,7 @@ class HeapTimer {
         HeapTimer() { m_heap.reserve(64); }
 
         ~HeapTimer() { clear(); }
-        
+
         void adjust(int id, int newExpires);
 
         void add(int id, int timeout, const TimeoutCallBack& cb);
@@ -48,7 +48,7 @@ class HeapTimer {
 
     private:
         void m_del(size_t i);
-        
+
         void m_siftUp(size_t i);
 
         bool m_siftDown(size_t index, size_t n);

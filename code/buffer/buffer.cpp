@@ -1,6 +1,6 @@
 #include "buffer.h"
 
-Buffer::Buffer(int initBufferSize) : m_buffer(initBufferSize), m_readPos(0), m_writePos(0) {}
+Buffer::Buffer(int initBufferSize): m_buffer(initBufferSize), m_readPos(0), m_writePos(0) {}
 
 size_t Buffer::readableBytes() const {
     return m_writePos - m_readPos;
@@ -19,7 +19,7 @@ const char* Buffer::peek() const {
 }
 
 void Buffer::ensureWriteable(size_t len) {
-    if(writableBytes() < len) {
+    if (writableBytes() < len) {
         m_makeSpace(len);
     }
     assert(writableBytes() >= len);
@@ -90,15 +90,13 @@ ssize_t Buffer::readFd(int fd, int* saveErrno) {
     iov[1].iov_len = sizeof(buff);
 
     const ssize_t len = readv(fd, iov, 2);
-    if(len < 0) {
+    if (len < 0) {
         *saveErrno = errno;
-    }
-    else if(static_cast<size_t>(len) <= writable) {
+    } else if (static_cast<size_t>(len) <= writable) {
         m_writePos += len;
-    }
-    else {
+    } else {
         m_writePos = m_buffer.size();
-        append(buff, len - m_writePos);
+        append(buff, len - writable);
     }
     return len;
 }
@@ -106,10 +104,10 @@ ssize_t Buffer::readFd(int fd, int* saveErrno) {
 ssize_t Buffer::writeFd(int fd, int* saveErrno) {
     size_t readSize = readableBytes();
     ssize_t len = write(fd, peek(), readSize);
-    if(len < 0) {
+    if (len < 0) {
         *saveErrno = errno;
         return len;
-    } 
+    }
     m_readPos += len;
     return len;
 }
@@ -123,10 +121,9 @@ const char* Buffer::m_beginPtr() const {
 }
 
 void Buffer::m_makeSpace(size_t len) {
-    if(writableBytes() + prependableBytes() < len) {
+    if (writableBytes() + prependableBytes() < len) {
         m_buffer.resize(m_writePos + len + 1);
-    } 
-    else {
+    } else {
         size_t readable = readableBytes();
         std::copy(m_beginPtr() + m_readPos, m_beginPtr() + m_writePos, m_beginPtr());
         m_readPos = 0;

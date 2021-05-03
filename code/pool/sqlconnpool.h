@@ -21,7 +21,7 @@ class SqlConnPool {
         int getFreeConnCount();
 
         void initPool(const char* host, int port,
-                const char* username,const char* password, 
+                const char* username,const char* password,
                 const char* dbName, int connSize);
         void closePool();
 

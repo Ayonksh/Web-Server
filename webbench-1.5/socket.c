@@ -26,8 +26,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-int Socket(const char *host, int clientPort)
-{
+int Socket(const char *host, int clientPort){
     int sock;
     unsigned long inaddr;
     struct sockaddr_in ad;
@@ -39,8 +38,7 @@ int Socket(const char *host, int clientPort)
     inaddr = inet_addr(host);
     if (inaddr != INADDR_NONE)
         memcpy(&ad.sin_addr, &inaddr, sizeof(inaddr));
-    else
-    {
+    else {
         hp = gethostbyname(host);
         if (hp == NULL)
             return -1;
@@ -51,8 +49,10 @@ int Socket(const char *host, int clientPort)
     sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock < 0)
         return sock;
-    if (connect(sock, (struct sockaddr *)&ad, sizeof(ad)) < 0)
+    if (connect(sock, (struct sockaddr *)&ad, sizeof(ad)) < 0) {
+        close(sock);
         return -1;
+    }
     return sock;
 }
 

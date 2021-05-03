@@ -15,7 +15,7 @@ class SqlConnRAII {
         ~SqlConnRAII() {
             if(m_ConnRAII) { m_ConnPoolRAII->freeConn(m_ConnRAII); }
         }
-        
+
     private:
         MYSQL *m_ConnRAII;
         SqlConnPool* m_ConnPoolRAII;

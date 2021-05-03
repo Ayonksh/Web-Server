@@ -15,9 +15,9 @@
 
 class Log {
     public:
-        void init(int level, const char* path = "./log", 
-                    const char* suffix =".log",
-                    int maxQueueCapacity = 1024);
+        void init(int level, const char* path = "./log",
+                  const char* suffix =".log",
+                  int maxQueueCapacity = 1024);
 
         static Log* getInstance();
         static void flushLogThread();
@@ -55,7 +55,7 @@ class Log {
         bool m_isAsync;
 
         FILE* m_fp;
-        std::unique_ptr<BlockDeque<std::string>> m_deque; 
+        std::unique_ptr<BlockDeque<std::string>> m_deque;
         std::unique_ptr<std::thread> m_writeThread;
         std::mutex m_mtx;
 };
@@ -67,11 +67,11 @@ class Log {
             log->write(level, format, ##__VA_ARGS__); \
             log->flush();\
         }\
-    } while(0);
+    } while (0);
 
-#define LOG_DEBUG(format, ...) do {LOG_BASE(0, format, ##__VA_ARGS__)} while(0);
-#define LOG_INFO(format, ...) do {LOG_BASE(1, format, ##__VA_ARGS__)} while(0);
-#define LOG_WARN(format, ...) do {LOG_BASE(2, format, ##__VA_ARGS__)} while(0);
-#define LOG_ERROR(format, ...) do {LOG_BASE(3, format, ##__VA_ARGS__)} while(0);
+#define LOG_DEBUG(format, ...) do {LOG_BASE(0, format, ##__VA_ARGS__)} while (0);
+#define LOG_INFO(format, ...) do {LOG_BASE(1, format, ##__VA_ARGS__)} while (0);
+#define LOG_WARN(format, ...) do {LOG_BASE(2, format, ##__VA_ARGS__)} while (0);
+#define LOG_ERROR(format, ...) do {LOG_BASE(3, format, ##__VA_ARGS__)} while (0);
 
-#endif //LOG_H
+#endif  //LOG_H

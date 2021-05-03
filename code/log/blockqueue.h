@@ -55,9 +55,9 @@ class BlockDeque {
 
 
 template<class T>
-BlockDeque<T>::BlockDeque(size_t maxCapacity) :m_capacity(maxCapacity) {
+BlockDeque<T>::BlockDeque(size_t maxCapacity): m_capacity(maxCapacity) {
     assert(maxCapacity > 0);
-    m_isClose  = false;
+    m_isClose = false;
 }
 
 template<class T>
@@ -67,7 +67,7 @@ BlockDeque<T>::~BlockDeque() {
 
 template<class T>
 void BlockDeque<T>::close() {
-    {   
+    {
         std::lock_guard<std::mutex> locker(m_mtx);
         m_deq.clear();
         m_isClose = true;
@@ -89,7 +89,7 @@ bool BlockDeque<T>::empty() {
 }
 
 template<class T>
-bool BlockDeque<T>::full(){
+bool BlockDeque<T>::full() {
     std::lock_guard<std::mutex> locker(m_mtx);
     return m_deq.size() >= m_capacity;
 }
@@ -122,7 +122,7 @@ T BlockDeque<T>::back() {
 template<class T>
 void BlockDeque<T>::push_front(const T &item) {
     std::unique_lock<std::mutex> locker(m_mtx);
-    while(m_deq.size() >= m_capacity) {
+    while (m_deq.size() >= m_capacity) {
         m_condProducer.wait(locker);
     }
     m_deq.push_front(item);
@@ -132,7 +132,7 @@ void BlockDeque<T>::push_front(const T &item) {
 template<class T>
 void BlockDeque<T>::push_back(const T &item) {
     std::unique_lock<std::mutex> locker(m_mtx);
-    while(m_deq.size() >= m_capacity) {
+    while (m_deq.size() >= m_capacity) {
         m_condProducer.wait(locker);
     }
     m_deq.push_back(item);
@@ -142,9 +142,9 @@ void BlockDeque<T>::push_back(const T &item) {
 template<class T>
 bool BlockDeque<T>::pop(T &item) {
     std::unique_lock<std::mutex> locker(m_mtx);
-    while(m_deq.empty()){
+    while (m_deq.empty()) {
         m_condConsumer.wait(locker);
-        if(m_isClose){
+        if (m_isClose) {
             return false;
         }
     }
@@ -157,12 +157,12 @@ bool BlockDeque<T>::pop(T &item) {
 template<class T>
 bool BlockDeque<T>::pop(T &item, int timeout) {
     std::unique_lock<std::mutex> locker(m_mtx);
-    while(m_deq.empty()){
-        if(m_condConsumer.wait_for(locker, std::chrono::seconds(timeout)) 
-                == std::cv_status::timeout){
+    while (m_deq.empty()) {
+        if (m_condConsumer.wait_for(locker, std::chrono::seconds(timeout)) 
+                == std::cv_status::timeout) {
             return false;
         }
-        if(m_isClose){
+        if (m_isClose) {
             return false;
         }
     }

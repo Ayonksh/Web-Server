@@ -1,7 +1,7 @@
 #ifndef BUFFER_H
 #define BUFFER_H
 
-#include <cstring>   
+#include <cstring>
 #include <iostream>
 #include <unistd.h>
 #include <sys/uio.h>
@@ -15,7 +15,7 @@ class Buffer {
         ~Buffer() = default;
 
         size_t readableBytes() const;
-        size_t writableBytes() const;       
+        size_t writableBytes() const;
         size_t prependableBytes() const;
 
         const char* peek() const;

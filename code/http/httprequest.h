@@ -5,7 +5,7 @@
 #include <unordered_set>
 #include <string>
 #include <regex>
-#include <errno.h>     
+#include <errno.h>
 #include <mysql/mysql.h>
 
 #include "../buffer/buffer.h"
@@ -19,7 +19,7 @@ class HttpRequest {
             REQUEST_LINE,
             HEADERS,
             BODY,
-            FINISH,        
+            FINISH,
         };
 
         enum HTTP_CODE {
@@ -32,7 +32,7 @@ class HttpRequest {
             INTERNAL_ERROR,
             CLOSED_CONNECTION,
         };
-        
+
         HttpRequest() { init(); }
         ~HttpRequest() = default;
 
@@ -76,4 +76,4 @@ class HttpRequest {
 };
 
 
-#endif //HTTP_REQUEST_H
+#endif  //HTTP_REQUEST_H

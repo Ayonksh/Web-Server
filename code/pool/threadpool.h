@@ -11,11 +11,11 @@ class ThreadPool {
     public:
         explicit ThreadPool(size_t threadCount = 8): m_pool(std::make_shared<Pool>()) {
             assert(threadCount > 0);
-            for(size_t i = 0; i < threadCount; i++) {
+            for (size_t i = 0; i < threadCount; ++i) {
                 std::thread([pool = m_pool] {
                     std::unique_lock<std::mutex> locker(pool->mtx);
-                    while(true) {
-                        if(!pool->tasks.empty()) {
+                    while (true) {
+                        if (!pool->tasks.empty()) {
                             auto task = std::move(pool->tasks.front());
                             pool->tasks.pop();
                             locker.unlock();
