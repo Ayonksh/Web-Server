@@ -4,8 +4,8 @@ using namespace std;
 
 WebServer::WebServer(
             int port, int trigMode, int timeoutMS, bool optLinger,
-            int sqlPort, const char* sqlUser, const char* sqlPwd, const char* dbName, int connPoolNum,
-            int threadNum, bool openLog, int logLevel, int logQueSize):
+            int sqlPort, const char* sqlUser, const char* sqlPwd, const char* dbName,
+            int connPoolNum, int threadNum, bool openLog, int logLevel, int logQueSize):
             m_port(port), m_timeoutMS(timeoutMS), m_openLinger(optLinger), m_isClose(false),
             m_timer(new HeapTimer()), m_threadpool(new ThreadPool(threadNum)), m_epoller(new Epoller())
     {
