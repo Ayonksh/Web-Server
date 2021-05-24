@@ -70,10 +70,6 @@ make
 ./webbench-1.5/webbench -c 10000 -t 10 http://ip:port/
 ```
 
-![image](https://github.com/Ayonveig/Web-Server/blob/main/readme.assest/pressure.png)
-
-测试结果因测试环境而不同
-
 ## 改进
 
-使用协程来对异步日志的读写进行改进
+可以使用协程来对异步日志的读写进行改进
